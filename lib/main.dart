@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:refectify/pages/home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,6 +12,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        scaffoldBackgroundColor: Colors.grey[800],
+        textTheme: TextTheme(
+          bodyMedium: TextStyle(color: Colors.grey[300], fontSize: 18),
+          bodyLarge: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.w600, fontSize: 28.0),
+        ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+            backgroundColor: Colors.grey[900],
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.white54),
+      ),
+      themeMode: ThemeMode.dark,
+      initialRoute: '/home',
+      routes: {'/home': (context) => HomePage()},
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
