@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:refectify/pages/editing.dart';
 import '../reuseable_widgets/note_card.dart';
@@ -11,14 +12,35 @@ class Home extends StatefulWidget {
 
 class _Home extends State<Home> {
   int idx = 0;
+  Future<void> _signOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    // After signing out, navigate to the login page or another screen.
+    Navigator.popAndPushNamed(context, '/home');
+  }
+
   static const List<Widget> pages = <Widget>[
     HomePage(),
     EditorPage(),
     HomePage()
-  s];
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Home Page'),
+        backgroundColor: Colors.black54,
+        actions: [
+          TextButton(
+            onPressed: () async {
+              await _signOut(context);
+            },
+            child: const Text(
+              'Logout',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
@@ -54,54 +76,52 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 15.0),
-                child: Center(
-                  child: Container(
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black54,
-                            blurRadius: 10.0,
-                            blurStyle: BlurStyle.outer),
-                      ],
-                      color: Colors.grey[900],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 15.0),
+              child: Center(
+                child: Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(20.0),
                     ),
-                    height: 100.0,
-                    width: 330.0,
-                    child: Text(
-                      "Good Evening, Dhruv",
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
+                    boxShadow: const [
+                      BoxShadow(
+                          color: Colors.black54,
+                          blurRadius: 10.0,
+                          blurStyle: BlurStyle.outer),
+                    ],
+                    color: Colors.grey[900],
+                  ),
+                  height: 100.0,
+                  width: 330.0,
+                  child: Text(
+                    "Good Evening, Dhruv",
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
               ),
-              SizedBox(
-                height: 20.0,
+            ),
+            const SizedBox(
+              height: 20.0,
+            ),
+            Expanded(
+              child: ListView(
+                children: const [
+                  NoteCard(),
+                  NoteCard(),
+                  NoteCard(),
+                  NoteCard(),
+                  NoteCard(),
+                  NoteCard(),
+                  NoteCard(),
+                ],
               ),
-              Expanded(
-                child: ListView(
-                  children: [
-                    NoteCard(),
-                    NoteCard(),
-                    NoteCard(),
-                    NoteCard(),
-                    NoteCard(),
-                    NoteCard(),
-                    NoteCard(),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -1,13 +1,18 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:refectify/firebase_options.dart';
+import 'package:refectify/pages/auth/auth.dart';
 import 'package:refectify/pages/editing.dart';
 import 'package:refectify/pages/home.dart';
 import 'package:refectify/pages/onboarding.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
-
-bool initScreen = true;
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -20,7 +25,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.grey[800],
         textTheme: TextTheme(
           bodyMedium: TextStyle(color: Colors.grey[300], fontSize: 18),
-          bodyLarge: TextStyle(
+          bodyLarge: const TextStyle(
               color: Colors.white, fontWeight: FontWeight.w600, fontSize: 28.0),
         ),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
@@ -29,11 +34,12 @@ class MyApp extends StatelessWidget {
             unselectedItemColor: Colors.white54),
       ),
       themeMode: ThemeMode.dark,
-      initialRoute: initScreen ? '/onboarding' : '/home',
+      initialRoute: '/auth',
       routes: {
-        '/onboarding': (context) => OnboardingPage(),
-        '/home': (context) => Home(),
-        '/noteCreate': (context) => EditorPage(),
+        '/auth': (context) => const AuthPage(),
+        '/onboarding': (context) => const OnboardingPage(),
+        '/home': (context) => const Home(),
+        '/noteCreate': (context) => const EditorPage(),
       },
       title: 'Flutter Demo',
       theme: ThemeData(
