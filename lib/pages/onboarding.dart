@@ -168,10 +168,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
           child: InkWell(
             borderRadius: defaultProceedButtonBorderRadius,
             onTap: () {
-              Navigator.push(
+              //redirect to /home
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const HomePage(),
+                  builder: (context) => const Home(),
                 ),
               );
             },

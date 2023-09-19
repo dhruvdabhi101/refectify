@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       initialRoute: initScreen ? '/onboarding' : '/home',
       routes: {
         '/onboarding': (context) => OnboardingPage(),
-        '/home': (context) => HomePage(),
+        '/home': (context) => Home(),
         '/noteCreate': (context) => EditorPage(),
       },
       title: 'Flutter Demo',
