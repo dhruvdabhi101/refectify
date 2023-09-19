@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:refectify/pages/editing.dart';
 import '../reuseable_widgets/note_card.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<Home> createState() => _Home();
 }
 
-class _HomePageState extends State<HomePage> {
+class _Home extends State<Home> {
   int idx = 0;
+  static const List<Widget> pages = <Widget>[
+    HomePage(),
+    EditorPage(),
+    HomePage()
+  s];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.create), label: "Create Note"),
           BottomNavigationBarItem(
               icon: Icon(Icons.settings), label: "Settings"),
         ],
@@ -26,6 +34,25 @@ class _HomePageState extends State<HomePage> {
           })
         },
       ),
+      body: IndexedStack(
+        index: idx,
+        children: pages,
+      ),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
       body: SafeArea(
         child: Container(
           child: Column(
