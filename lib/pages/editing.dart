@@ -9,7 +9,7 @@ class EditorPage extends StatefulWidget {
 }
 
 class _EditorPageState extends State<EditorPage> {
-  QuillController _controller = QuillController.basic();
+  final QuillController _controller = QuillController.basic();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,10 +17,7 @@ class _EditorPageState extends State<EditorPage> {
         child: Column(
           children: [
             Expanded(
-              child: Container(
-                child:
-                    QuillEditor.basic(controller: _controller, readOnly: false),
-              ),
+              child: QuillEditor.basic(controller: _controller, readOnly: false),
             ),
             QuillToolbar.basic(
               controller: _controller,

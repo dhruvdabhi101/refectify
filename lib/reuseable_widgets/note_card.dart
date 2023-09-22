@@ -10,7 +10,7 @@ class NoteCard extends StatelessWidget {
       child: Center(
         child: Container(
           alignment: Alignment.center,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(
               Radius.circular(20.0),
             ),

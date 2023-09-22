@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onboarding/onboarding.dart';
-import 'package:refectify/pages/home.dart';
+import 'package:refectify/pages/auth/login.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -22,46 +22,45 @@ class _OnboardingPageState extends State<OnboardingPage> {
             color: background,
           ),
         ),
-        child: SingleChildScrollView(
-          controller: ScrollController(),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 45.0,
-                  vertical: 90.0,
-                ),
-                child: Image.network(
-                  "https://blog.cuw.edu/wp-content/uploads/note-methods-e1629911426304.jpg",
-                  height: 300,
-                  width: 300,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 45.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Refectify',
-                    style: pageTitleStyle,
-                    textAlign: TextAlign.left,
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Center(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 45.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Refectify',
+                        style: TextStyle(
+                          fontSize: 50.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 45.0, vertical: 10.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Refectify, Use it only if you want to success in life',
-                    style: pageInfoStyle,
-                    textAlign: TextAlign.left,
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 45.0, vertical: 10.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Refectify, Use it only if you want to success in life',
+                        style: pageInfoStyle,
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
                   ),
-                ),
+                  Padding(padding: EdgeInsets.symmetric(vertical: 50.0)),
+                ],
               ),
-              const Padding(padding: EdgeInsets.symmetric(vertical: 50.0)),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     ),
@@ -74,46 +73,45 @@ class _OnboardingPageState extends State<OnboardingPage> {
             color: background,
           ),
         ),
-        child: SingleChildScrollView(
-          controller: ScrollController(),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 45.0,
-                  vertical: 90.0,
-                ),
-                child: Image.network(
-                  "https://picsum.photos/id/24/4855/1803",
-                  height: 300,
-                  width: 300,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 45.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Sign up now',
-                    style: pageTitleStyle,
-                    textAlign: TextAlign.left,
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Center(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 45.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Sign up now',
+                        style: TextStyle(
+                          fontSize: 50.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 45.0, vertical: 10.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Get more from the app after signing up',
-                    style: pageInfoStyle,
-                    textAlign: TextAlign.left,
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 45.0, vertical: 10.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Get more from the app after signing up',
+                        style: pageInfoStyle,
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
                   ),
-                ),
+                  Padding(padding: EdgeInsets.symmetric(vertical: 50.0)),
+                ],
               ),
-              const Padding(padding: EdgeInsets.symmetric(vertical: 50.0)),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     ),
@@ -172,7 +170,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const Home(),
+                  builder: (context) => const LoginPage(),
                 ),
               );
             },
