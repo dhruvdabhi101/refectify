@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:refectify/pages/auth/signup.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,14 +14,51 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final googleSignIn = GoogleSignIn();
   bool _isObscure = true;
   String _errorMessage = '';
+  Future<User?> _handleSignInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleSignInAccount =
+          await googleSignIn.signIn();
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount!.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+
+      final UserCredential authResult =
+          await _auth.signInWithCredential(credential);
+      final User? user = authResult.user;
+
+      // Check if the user was successfully signed in
+      if (user != null) {
+        // Redirect to the home page or perform other actions.
+        Navigator.pushReplacementNamed(context, '/auth');
+      }
+
+      return user;
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'Login failed. Please try again.';
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(_errorMessage),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    }
+    return null;
+  }
 
   // Method for Firebase authentication
   Future<void> _signInWithEmailAndPassword() async {
     try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       );
@@ -89,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                     Center(
                       child: ElevatedButton(
                         onPressed: () async {
-                          // await _handleSignInWithGoogle();
+                          await _handleSignInWithGoogle();
                         },
                         child: const Text('Login with Google'),
                       ),
@@ -100,6 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                             Text('or', style: TextStyle(color: Colors.white))),
                     const SizedBox(height: 20.0),
                     TextFormField(
+                      autofocus: false,
                       controller: _emailController,
                       decoration: const InputDecoration(
                         hintText: 'Email',
@@ -127,6 +166,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     const SizedBox(height: 20.0),
                     TextFormField(
+                      autofocus: false,
                       controller: _passwordController,
                       obscureText: _isObscure,
                       decoration: InputDecoration(
@@ -170,7 +210,7 @@ class _LoginPageState extends State<LoginPage> {
                       },
                       child: const Text('Login'),
                     ),
-                    SizedBox(height: 20.0),
+                    const SizedBox(height: 20.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

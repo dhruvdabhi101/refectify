@@ -14,7 +14,7 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  bool _isObscure = true;
+  final bool _isObscure = true;
   String _errorMessage = '';
 
   // Method for Firebase email/password registration
