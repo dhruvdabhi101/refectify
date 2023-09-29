@@ -15,6 +15,7 @@ class _Home extends State<Home> {
   Future<void> _signOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
     // After signing out, navigate to the login page or another screen.
+    if(!mounted)return;
     Navigator.popAndPushNamed(context, '/auth');
   }
 
@@ -29,7 +30,7 @@ class _Home extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home Page'),
-        backgroundColor: Colors.black54,
+        backgroundColor: Colors.grey[900],
         titleTextStyle: const TextStyle(
           color: Colors.white,
           fontSize: 20.0,
@@ -78,6 +79,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String getStateOfDay(){
+    int hour = DateTime.now().hour;
+    if(12>hour && hour>4){
+      return "Morning";
+    }
+    else if(16>hour && hour>12){
+      return "Afternoon";
+    }
+    else if(20>hour && hour>16){
+      return "Evening";
+    }
+    else{
+      return "Night";
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     boxShadow: const [
                       BoxShadow(
-                          color: Colors.black54,
+                          color: Colors.black87,
                           blurRadius: 10.0,
                           blurStyle: BlurStyle.outer),
                     ],
@@ -105,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                   height: 100.0,
                   width: 330.0,
                   child: Text(
-                    "Good Evening, ${FirebaseAuth.instance.currentUser!.displayName}!",
+                    "Good ${getStateOfDay()}, ${FirebaseAuth.instance.currentUser!.displayName}!",
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
@@ -117,13 +133,13 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               child: ListView(
                 children: const [
-                  NoteCard(),
-                  NoteCard(),
-                  NoteCard(),
-                  NoteCard(),
-                  NoteCard(),
-                  NoteCard(),
-                  NoteCard(),
+                  NoteCard('note1'),
+                  NoteCard('note2'),
+                  NoteCard('note3'),
+                  NoteCard('note4'),
+                  NoteCard('note5'),
+                  NoteCard('note6'),
+                  NoteCard('note7'),
                 ],
               ),
             ),

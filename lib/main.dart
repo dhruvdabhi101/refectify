@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       darkTheme: ThemeData(
         useMaterial3: true,
-        scaffoldBackgroundColor: Colors.grey[800],
+        scaffoldBackgroundColor: Colors.grey[900],
         textTheme: TextTheme(
           bodyMedium: TextStyle(color: Colors.grey[300], fontSize: 18),
           bodyLarge: const TextStyle(

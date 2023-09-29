@@ -22,45 +22,35 @@ class _OnboardingPageState extends State<OnboardingPage> {
             color: background,
           ),
         ),
-        child: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Center(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 45.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Refectify',
-                        style: TextStyle(
-                          fontSize: 50.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 45.0, vertical: 10.0),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Refectify',
+                    style: TextStyle(
+                      fontSize: 50.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
+                    textAlign: TextAlign.left,
                   ),
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 45.0, vertical: 10.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Refectify, Use it only if you want to success in life',
-                        style: pageInfoStyle,
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'A simple note taking app with great features for taking notes',
+                    style: pageInfoStyle,
+                    textAlign: TextAlign.left,
                   ),
-                  Padding(padding: EdgeInsets.symmetric(vertical: 50.0)),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     ),
@@ -73,45 +63,35 @@ class _OnboardingPageState extends State<OnboardingPage> {
             color: background,
           ),
         ),
-        child: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Center(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 45.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Sign up now',
-                        style: TextStyle(
-                          fontSize: 50.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 45.0, vertical: 10.0),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Sign up now',
+                    style: TextStyle(
+                      fontSize: 50.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
+                    textAlign: TextAlign.left,
                   ),
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 45.0, vertical: 10.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Get more from the app after signing up',
-                        style: pageInfoStyle,
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Get more from the app after signing up',
+                    style: pageInfoStyle,
+                    textAlign: TextAlign.left,
                   ),
-                  Padding(padding: EdgeInsets.symmetric(vertical: 50.0)),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     ),
