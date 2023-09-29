@@ -7,10 +7,10 @@ class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  LoginPageState createState() => LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -37,6 +37,7 @@ class _LoginPageState extends State<LoginPage> {
       // Check if the user was successfully signed in
       if (user != null) {
         // Redirect to the home page or perform other actions.
+        if(!mounted)return null;
         Navigator.pushReplacementNamed(context, '/auth');
       }
 
@@ -45,6 +46,7 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         _errorMessage = 'Login failed. Please try again.';
       });
+      if(!mounted)return null;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(_errorMessage),
@@ -66,12 +68,14 @@ class _LoginPageState extends State<LoginPage> {
       if (user != null) {
         // Successfully logged in
         // Redirect to the home page
+        if(!mounted)return;
         Navigator.pushReplacementNamed(context, '/home');
       }
     } catch (e) {
       setState(() {
         _errorMessage = 'Login failed. Please check your email and password.';
       });
+      if(!mounted)return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(_errorMessage),
@@ -92,11 +96,11 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login Page'),
-        backgroundColor: Colors.black54,
+        title: const Text('Login Page', style: TextStyle(color: Colors.white),),
+        backgroundColor: Colors.grey[900],
       ),
       body: Container(
-        color: Colors.black54,
+        color: Colors.grey[900],
         padding: const EdgeInsets.all(20.0),
         child: Center(
           child: Form(

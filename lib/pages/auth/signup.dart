@@ -6,10 +6,10 @@ class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
 
   @override
-  _SignupPageState createState() => _SignupPageState();
+  SignupPageState createState() => SignupPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class SignupPageState extends State<SignupPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -31,12 +31,14 @@ class _SignupPageState extends State<SignupPage> {
         // Set the user's display name
         await user.updateDisplayName(_nameController.text);
         // Redirect to the home page
+        if (!mounted) return;
         Navigator.pushReplacementNamed(context, '/home');
       }
     } catch (e) {
       setState(() {
         _errorMessage = 'Registration failed. Please try again.';
       });
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(_errorMessage),
@@ -56,11 +58,11 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Signup Page'),
-        backgroundColor: Colors.black54,
+        title: const Text('Signup Page', style: TextStyle(color: Colors.white),),
+        backgroundColor: Colors.grey[900],
       ),
       body: Container(
-        color: Colors.black54,
+        color: Colors.grey[900],
         padding: const EdgeInsets.all(20.0),
         child: Center(
           child: Form(

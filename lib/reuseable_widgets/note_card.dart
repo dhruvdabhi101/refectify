@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class NoteCard extends StatelessWidget {
-  const NoteCard({super.key});
-
+  final String title;
+  const NoteCard(this.title, {super.key});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -19,7 +19,7 @@ class NoteCard extends StatelessWidget {
           height: 70.0,
           width: 360.0,
           child: Text(
-            "Note Card",
+            title,
             style: Theme.of(context).textTheme.bodyMedium,
           ),
         ),
