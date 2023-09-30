@@ -10,11 +10,11 @@ class NoteCard extends StatelessWidget {
       child: Center(
         child: Container(
           alignment: Alignment.center,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(
               Radius.circular(20.0),
             ),
-            color: Colors.black38,
+            color: Theme.of(context).primaryColor,
           ),
           height: 70.0,
           width: 360.0,
