@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:refectify/pages/settings.dart';
 // import 'package:refectify/pages/editing.dart';
 import '../reuseable_widgets/note_card.dart';
 
@@ -12,42 +13,15 @@ class Home extends StatefulWidget {
 
 class _Home extends State<Home> {
   int idx = 0;
-  Future<void> _signOut(BuildContext context) async {
-    await FirebaseAuth.instance.signOut();
-    // After signing out, navigate to the login page or another screen.
-    if(!mounted)return;
-    Navigator.popAndPushNamed(context, '/auth');
-  }
-
   static const List<Widget> pages = <Widget>[
     HomePage(),
     // EditorPage(),
     HomePage(),
-    HomePage()
+    SettingsPage()
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Page'),
-        backgroundColor: Colors.grey[900],
-        titleTextStyle: const TextStyle(
-          color: Colors.white,
-          fontSize: 20.0,
-          fontWeight: FontWeight.w600,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () async {
-              await _signOut(context);
-            },
-            child: const Text(
-              'Logout',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ],
-      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
@@ -79,24 +53,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String getStateOfDay(){
+  String getStateOfDay() {
     int hour = DateTime.now().hour;
-    if(12>hour && hour>4){
+    if (12 > hour && hour > 4) {
       return "Morning";
-    }
-    else if(16>hour && hour>12){
+    } else if (16 > hour && hour > 12) {
       return "Afternoon";
-    }
-    else if(20>hour && hour>16){
+    } else if (20 > hour && hour > 16) {
       return "Evening";
-    }
-    else{
+    } else {
       return "Night";
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Home Page'),
+      ),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -116,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                           blurRadius: 10.0,
                           blurStyle: BlurStyle.outer),
                     ],
-                    color: Colors.grey[900],
+                    color: Theme.of(context).scaffoldBackgroundColor,
                   ),
                   height: 100.0,
                   width: 330.0,
