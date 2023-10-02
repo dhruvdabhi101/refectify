@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:refectify/main.dart';
 import 'package:refectify/theme_notifier.dart';
 import 'package:refectify/pages/components/pdftool.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -11,12 +13,12 @@ class SettingsPage extends StatefulWidget {
 }
 
 class SettingsPageState extends State<SettingsPage> {
-  bool notificationsEnabled = true;
+  String freqVal = 'Never';
   String selectedLanguage = 'English';
   String selectedRegion = 'US';
-  int notesAddedLastWeek = 10; 
-  int notesAddedYesterday = 3; 
-  int notesAddedLastMonth = 30; 
+  int notesAddedLastWeek = 10;
+  int notesAddedYesterday = 3;
+  int notesAddedLastMonth = 30;
 
   Future<void> _signOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
@@ -24,7 +26,38 @@ class SettingsPageState extends State<SettingsPage> {
     Navigator.popAndPushNamed(context, '/auth');
   }
 
-  Future<void> _exportNotes() async {
+  Future<void> makeNotification(DateTime dateTime) async {
+    const AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails(
+            'reminderNotifications', 'Reminder Notifications',
+            channelDescription: 'time to add your notes');
+    const NotificationDetails notificationDetails =
+        NotificationDetails(android: androidNotificationDetails);
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'Reminder from Refectify',
+      'Its time to add your notes in Refectify',
+      notificationDetails,
+    );
+  }
+
+  Future<void> scheduleNotification(DateTime dateTime) async {
+    await flutterLocalNotificationsPlugin.cancelAll();
+    if ('Never' == freqVal) {
+      return;
+    } else {
+      await makeNotification(dateTime);
+      if ('Twice' == freqVal) {
+        await makeNotification(dateTime.add(const Duration(hours: 12)));
+      }
+      if ('Thrice' == freqVal) {
+        await makeNotification(dateTime.add(const Duration(hours: 8)));
+        await makeNotification(dateTime.add(const Duration(hours: 16)));
+      }
+    }
+  }
+
+  Future<void> exportNotes() async {
     const pdfText = 'sample text';
     PDFTools.generateCenteredText(pdfText);
   }
@@ -59,14 +92,26 @@ class SettingsPageState extends State<SettingsPage> {
               ),
             ),
             ListTile(
-              title: Text('Notifications',
+              title: Text('Notifications(Daily)',
                   style: Theme.of(context).textTheme.bodyMedium),
-              trailing: Switch(
-                value: notificationsEnabled,
-                onChanged: (bool value) {
-                  setState(() {
-                    notificationsEnabled = value;
-                  });
+              trailing: DropdownButton<String>(
+                style: Theme.of(context).textTheme.bodyMedium,
+                value: freqVal,
+                dropdownColor: Theme.of(context).scaffoldBackgroundColor,
+                items: ['Never', 'Once', 'Twice', 'Thrice'].map((String freq) {
+                  return DropdownMenuItem<String>(
+                    value: freq,
+                    child: Text(freq,
+                        style: Theme.of(context).textTheme.bodyMedium),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  if (null != newValue) {
+                    setState(() {
+                      freqVal = newValue;
+                    });
+                    scheduleNotification(DateTime.now());
+                  }
                 },
               ),
             ),
@@ -88,7 +133,6 @@ class SettingsPageState extends State<SettingsPage> {
                   if (null != newValue) {
                     setState(() {
                       selectedLanguage = newValue;
-                      
                     });
                   }
                 },
@@ -111,7 +155,6 @@ class SettingsPageState extends State<SettingsPage> {
                   if (null != newValue) {
                     setState(() {
                       selectedRegion = newValue;
-                      
                     });
                   }
                 },
@@ -143,7 +186,7 @@ class SettingsPageState extends State<SettingsPage> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: _exportNotes,
+              onPressed: exportNotes,
               child: const Text('Export Notes'),
             ),
             ListTile(
