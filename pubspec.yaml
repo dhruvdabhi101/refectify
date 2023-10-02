@@ -41,7 +41,6 @@ dependencies:
   google_sign_in: ^6.1.5
   provider: ^6.0.5
   pdf: ^3.10.4
-  path_provider: ^2.1.1
   printing: ^5.11.0
 
 dev_dependencies:
