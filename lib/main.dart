@@ -8,12 +8,27 @@ import 'package:refectify/pages/onboarding.dart';
 import 'package:refectify/pages/settings.dart';
 import 'package:provider/provider.dart';
 import 'package:refectify/theme_notifier.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  WidgetsFlutterBinding.ensureInitialized();
+  const initializationSettingsAndroid =
+      AndroidInitializationSettings('ic_launcher');
+  // final initializationSettingsIOS = IOSInitializationSettings();
+  const initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+    // iOS: initializationSettingsIOS,
+  );
+  await flutterLocalNotificationsPlugin.initialize(
+    initializationSettings,
+  );
+
   runApp(ChangeNotifierProvider(
     create: (context) => ThemeProvider(),
     child: const MyApp(),
