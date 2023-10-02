@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:refectify/theme_notifier.dart';
+import 'package:refectify/pages/components/pdftool.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -13,22 +14,19 @@ class SettingsPageState extends State<SettingsPage> {
   bool notificationsEnabled = true;
   String selectedLanguage = 'English';
   String selectedRegion = 'US';
-  int notesAddedLastWeek = 10; // Replace with actual data
-  int notesAddedYesterday = 3; // Replace with actual data
-  int notesAddedLastMonth = 30; // Replace with actual data
-
-  // Firebase authentication and database logic can be integrated here.
+  int notesAddedLastWeek = 10; 
+  int notesAddedYesterday = 3; 
+  int notesAddedLastMonth = 30; 
 
   Future<void> _signOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
-    // After signing out, navigate to the login page or another screen.
     if (!mounted) return;
     Navigator.popAndPushNamed(context, '/auth');
   }
 
   Future<void> _exportNotes() async {
-    // Implement the logic to export notes here.
-    // You can use packages like pdf, csv, or others to export notes in different formats
+    const pdfText = 'sample text';
+    PDFTools.generateCenteredText(pdfText);
   }
 
   @override
@@ -68,7 +66,6 @@ class SettingsPageState extends State<SettingsPage> {
                 onChanged: (bool value) {
                   setState(() {
                     notificationsEnabled = value;
-                    // Implement notification settings here.
                   });
                 },
               ),
@@ -91,7 +88,7 @@ class SettingsPageState extends State<SettingsPage> {
                   if (null != newValue) {
                     setState(() {
                       selectedLanguage = newValue;
-                      // Implement language change logic here.
+                      
                     });
                   }
                 },
@@ -114,7 +111,7 @@ class SettingsPageState extends State<SettingsPage> {
                   if (null != newValue) {
                     setState(() {
                       selectedRegion = newValue;
-                      // Implement region change logic here.
+                      
                     });
                   }
                 },
@@ -149,7 +146,6 @@ class SettingsPageState extends State<SettingsPage> {
               onPressed: _exportNotes,
               child: const Text('Export Notes'),
             ),
-            const Spacer(),
             ListTile(
               title:
                   Text('Logout', style: Theme.of(context).textTheme.bodyMedium),
