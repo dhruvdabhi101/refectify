@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:refectify/pages/settings.dart';
-// import 'package:refectify/pages/editing.dart';
+import 'package:refectify/pages/editing.dart';
 import '../reuseable_widgets/note_card.dart';
 
 class Home extends StatefulWidget {
@@ -16,7 +16,7 @@ class _Home extends State<Home> {
   static const List<Widget> pages = <Widget>[
     HomePage(),
     // EditorPage(),
-    HomePage(),
+    EditorPage(),
     SettingsPage()
   ];
   @override

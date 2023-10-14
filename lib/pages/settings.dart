@@ -5,6 +5,7 @@ import 'package:refectify/main.dart';
 import 'package:refectify/theme_notifier.dart';
 import 'package:refectify/pages/components/pdftool.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -14,11 +15,31 @@ class SettingsPage extends StatefulWidget {
 
 class SettingsPageState extends State<SettingsPage> {
   String freqVal = 'Never';
-  String selectedLanguage = 'English';
-  String selectedRegion = 'US';
+  bool isDark = true;
   int notesAddedLastWeek = 10;
   int notesAddedYesterday = 3;
   int notesAddedLastMonth = 30;
+
+  @override
+  void initState() {
+    super.initState();
+    setPreferences();
+  }
+
+  void setPreferences() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    setState(() {
+      freqVal = sharedPreferences.getString('freqVal') ?? 'Never';
+      isDark = sharedPreferences.getBool('isDark') ?? true;
+    });
+  }
+
+  changeTheme(bool isDark) async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    sharedPreferences.setBool('isDark', isDark);
+  }
 
   Future<void> _signOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
@@ -55,6 +76,8 @@ class SettingsPageState extends State<SettingsPage> {
         await makeNotification(dateTime.add(const Duration(hours: 16)));
       }
     }
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setString('freqVal', freqVal);
   }
 
   Future<void> exportNotes() async {
@@ -87,7 +110,9 @@ class SettingsPageState extends State<SettingsPage> {
               trailing: Switch(
                 value: themeProvider.isDarkTheme,
                 onChanged: (bool value) {
+                  // sharedPreferences.setBool('isDark', value);
                   themeProvider.toggleTheme();
+                  changeTheme(value);
                 },
               ),
             ),
@@ -111,51 +136,6 @@ class SettingsPageState extends State<SettingsPage> {
                       freqVal = newValue;
                     });
                     scheduleNotification(DateTime.now());
-                  }
-                },
-              ),
-            ),
-            ListTile(
-              title: Text('Language',
-                  style: Theme.of(context).textTheme.bodyMedium),
-              trailing: DropdownButton<String>(
-                style: Theme.of(context).textTheme.bodyMedium,
-                value: selectedLanguage,
-                dropdownColor: Theme.of(context).scaffoldBackgroundColor,
-                items: ['English', 'Spanish', 'French'].map((String language) {
-                  return DropdownMenuItem<String>(
-                    value: language,
-                    child: Text(language,
-                        style: Theme.of(context).textTheme.bodyMedium),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  if (null != newValue) {
-                    setState(() {
-                      selectedLanguage = newValue;
-                    });
-                  }
-                },
-              ),
-            ),
-            ListTile(
-              title:
-                  Text('Region', style: Theme.of(context).textTheme.bodyMedium),
-              trailing: DropdownButton<String>(
-                value: selectedRegion,
-                dropdownColor: Theme.of(context).scaffoldBackgroundColor,
-                items: ['US', 'UK', 'Canada'].map((String region) {
-                  return DropdownMenuItem<String>(
-                    value: region,
-                    child: Text(region,
-                        style: Theme.of(context).textTheme.bodyMedium),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  if (null != newValue) {
-                    setState(() {
-                      selectedRegion = newValue;
-                    });
                   }
                 },
               ),

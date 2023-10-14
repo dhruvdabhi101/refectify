@@ -43,6 +43,7 @@ dependencies:
   pdf: ^3.10.4
   printing: ^5.11.0
   flutter_local_notifications: ^15.1.1
+  shared_preferences: ^2.2.1
 
 dev_dependencies:
   flutter_test:
