@@ -9,6 +9,7 @@ import 'package:refectify/pages/settings.dart';
 import 'package:provider/provider.dart';
 import 'package:refectify/theme_notifier.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
@@ -28,7 +29,6 @@ void main() async {
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,
   );
-
   runApp(ChangeNotifierProvider(
     create: (context) => ThemeProvider(),
     child: const MyApp(),
@@ -133,12 +133,20 @@ class MyApp extends StatelessWidget {
     }
     // return ThemeData();
   }
+  setTheme(ThemeProvider themeProvider) async{
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    bool? isDark = sharedPreferences.getBool('isDark') ?? true;
+    themeProvider.setTheme(isDark);
+    print(isDark);
+  }
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    setTheme(themeProvider);
     final themeData = themeProvider.isDarkTheme;
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: getTheme(context, themeData),
       initialRoute: '/auth',
