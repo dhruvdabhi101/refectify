@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:refectify/firebase_options.dart';
 import 'package:refectify/pages/auth/auth.dart';
+import 'package:refectify/pages/components/notepage.dart';
 import 'package:refectify/pages/editing.dart';
 import 'package:refectify/pages/home.dart';
 import 'package:refectify/pages/onboarding.dart';
@@ -11,7 +12,8 @@ import 'package:refectify/theme_notifier.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -133,7 +135,8 @@ class MyApp extends StatelessWidget {
     }
     // return ThemeData();
   }
-  setTheme(ThemeProvider themeProvider) async{
+
+  setTheme(ThemeProvider themeProvider) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     bool? isDark = sharedPreferences.getBool('isDark') ?? true;
     themeProvider.setTheme(isDark);
@@ -155,6 +158,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const Home(),
         '/noteCreate': (context) => const EditorPage(),
         '/settings': (context) => const SettingsPage(),
+        '/noteHome': (context) => const NotePage(),
       },
     );
   }

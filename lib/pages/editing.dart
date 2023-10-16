@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:refectify/pages/components/note.dart';
@@ -19,7 +21,7 @@ class _EditorPageState extends State<EditorPage> {
     NoteManager noteManager = NoteManager(sharedPreferences);
     Note note = Note(
       title: title,
-      content: 'hello',
+      content: noteText,
       creationDate: DateTime.now(),
     );
     noteManager.saveNote(note);
@@ -68,7 +70,7 @@ class _EditorPageState extends State<EditorPage> {
           ElevatedButton(
             child: const Text('Save'),
             onPressed: () {
-              final noteText = _controller.document.toDelta().toString();
+              final noteText = jsonEncode( _controller.document.toDelta().toJson());
               saveClick(context, noteText);
             },
           ),

@@ -20,6 +20,13 @@ class NoteManager {
     }).toList();
   }
 
+  void deleteNote(Note note){
+    final notes = getNotes();
+    notes.remove(note);
+    final noteStrings = notes.map((note) => json.encode(note.toMap())).toList();
+    _prefs.setStringList(notesKey, noteStrings);
+  }
+
   void saveNote(Note note) {
     final notes = getNotes();
     notes.add(note);

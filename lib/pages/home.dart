@@ -124,8 +124,9 @@ class _HomePageState extends State<HomePage> {
               child: ListView.builder(
                 itemCount: notes.length,
                 itemBuilder: (context, index) {
-                  return NoteCard(notes[index].title);
+                  return NoteCard(notes[index]);
                 },
+                
               ),
             ),
           ],
