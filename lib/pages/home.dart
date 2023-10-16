@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:refectify/pages/components/note.dart';
+import 'package:refectify/pages/components/note_manager.dart';
 import 'package:refectify/pages/settings.dart';
 import 'package:refectify/pages/editing.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../reuseable_widgets/note_card.dart';
 
 class Home extends StatefulWidget {
@@ -53,6 +56,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<Note> notes = [];
   String getStateOfDay() {
     int hour = DateTime.now().hour;
     if (12 > hour && hour > 4) {
@@ -64,6 +68,17 @@ class _HomePageState extends State<HomePage> {
     } else {
       return "Night";
     }
+  }
+  @override
+  void initState() {
+    super.initState();
+    getNotes();
+  }
+  
+  getNotes() async{
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    NoteManager noteManager = NoteManager(sharedPreferences);
+    notes = noteManager.getNotes();
   }
 
   @override
@@ -106,16 +121,11 @@ class _HomePageState extends State<HomePage> {
               height: 20.0,
             ),
             Expanded(
-              child: ListView(
-                children: const [
-                  NoteCard('note1'),
-                  NoteCard('note2'),
-                  NoteCard('note3'),
-                  NoteCard('note4'),
-                  NoteCard('note5'),
-                  NoteCard('note6'),
-                  NoteCard('note7'),
-                ],
+              child: ListView.builder(
+                itemCount: notes.length,
+                itemBuilder: (context, index) {
+                  return NoteCard(notes[index].title);
+                },
               ),
             ),
           ],

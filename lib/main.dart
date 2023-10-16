@@ -137,7 +137,6 @@ class MyApp extends StatelessWidget {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     bool? isDark = sharedPreferences.getBool('isDark') ?? true;
     themeProvider.setTheme(isDark);
-    print(isDark);
   }
 
   @override
