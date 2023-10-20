@@ -20,9 +20,14 @@ class NoteManager {
     }).toList();
   }
 
-  void deleteNote(Note note){
+  void deleteNote(Note note) {
     final notes = getNotes();
-    notes.remove(note);
+    for (int i = 0; i < notes.length; i++) {
+      if (notes[i].id == note.id) {
+        notes.removeAt(i);
+        break;
+      }
+    }
     final noteStrings = notes.map((note) => json.encode(note.toMap())).toList();
     _prefs.setStringList(notesKey, noteStrings);
   }

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:refectify/pages/components/note_manager.dart';
+import 'package:refectify/pages/components/pdftool.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'note.dart';
 
@@ -23,30 +24,34 @@ class _NotePageState extends State<NotePage> {
   initState() {
     super.initState();
   }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     note = ModalRoute.of(context)!.settings.arguments as Note;
   }
+
   deleteNote() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     NoteManager noteManager = NoteManager(prefs);
     noteManager.deleteNote(note);
-    if(!mounted) return;
-    Navigator.pop(context);
+    if (!mounted) return;
+    Navigator.popAndPushNamed(context, '/home');
   }
+
+  shareNote() async {
+    String noteContent =
+        quill.Document.fromJson(jsonDecode(note.content)).toPlainText();
+    PDFTools.generateCenteredText(
+        '${note.title}\nCreated at:${note.content}\n$noteContent\n\n');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Note'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: () {
-              // TODO: Implement edit functionality
-            },
-          ),
           IconButton(
             icon: const Icon(Icons.delete),
             onPressed: () {
@@ -56,7 +61,7 @@ class _NotePageState extends State<NotePage> {
           IconButton(
             icon: const Icon(Icons.share),
             onPressed: () {
-              // TODO: Implement share functionality
+              shareNote();
             },
           ),
         ],
