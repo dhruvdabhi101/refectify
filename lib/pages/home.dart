@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:refectify/pages/components/note.dart';
 import 'package:refectify/pages/components/note_manager.dart';
+import 'package:refectify/pages/search.dart';
 import 'package:refectify/pages/settings.dart';
 import 'package:refectify/pages/editing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,8 +19,8 @@ class _Home extends State<Home> {
   int idx = 0;
   static const List<Widget> pages = <Widget>[
     HomePage(),
-    // EditorPage(),
     EditorPage(),
+    SearchPage(),
     SettingsPage()
   ];
   @override
@@ -30,6 +31,7 @@ class _Home extends State<Home> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(
               icon: Icon(Icons.create), label: "Create Note"),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
           BottomNavigationBarItem(
               icon: Icon(Icons.settings), label: "Settings"),
         ],
@@ -69,16 +71,23 @@ class _HomePageState extends State<HomePage> {
       return "Night";
     }
   }
+
   @override
   void initState() {
     super.initState();
     getNotes();
   }
-  
-  getNotes() async{
+
+  getNotes() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     NoteManager noteManager = NoteManager(sharedPreferences);
     notes = noteManager.getNotes();
+  }
+
+  getGreeting() {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (null == currentUser) return 'Local User';
+    return currentUser.displayName;
   }
 
   @override
@@ -111,7 +120,7 @@ class _HomePageState extends State<HomePage> {
                   height: 100.0,
                   width: 330.0,
                   child: Text(
-                    "Good ${getStateOfDay()}, ${FirebaseAuth.instance.currentUser!.displayName}!",
+                    "Good ${getStateOfDay()}, ${getGreeting()}!",
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
@@ -126,7 +135,6 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (context, index) {
                   return NoteCard(notes[index]);
                 },
-                
               ),
             ),
           ],

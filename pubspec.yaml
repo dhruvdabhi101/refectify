@@ -37,13 +37,14 @@ dependencies:
   onboarding: ^3.1.0
   flutter_quill: ^7.4.6
   firebase_auth: ^4.10.0
-  firebase_core: ^2.16.0
+  firebase_core: ^2.19.0
   google_sign_in: ^6.1.5
   provider: ^6.0.5
   pdf: ^3.10.4
   printing: ^5.11.0
   flutter_local_notifications: ^15.1.1
   shared_preferences: ^2.2.1
+  firebase_database: ^10.3.1
 
 dev_dependencies:
   flutter_test:

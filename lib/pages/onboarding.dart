@@ -171,57 +171,53 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: Scaffold(
-        body: Onboarding(
-            pages: onboardingPagesList,
-            onPageChange: (int pageIndex) {
-              index = pageIndex;
-            },
-            footerBuilder: (context, dragDistance, pagesLength, setIndex) {
-              return DecoratedBox(
-                decoration: BoxDecoration(
+    return Scaffold(
+      body: Onboarding(
+          pages: onboardingPagesList,
+          onPageChange: (int pageIndex) {
+            index = pageIndex;
+          },
+          footerBuilder: (context, dragDistance, pagesLength, setIndex) {
+            return DecoratedBox(
+              decoration: BoxDecoration(
+                color: background,
+                border: Border.all(
+                  width: 0.0,
                   color: background,
-                  border: Border.all(
-                    width: 0.0,
-                    color: background,
-                  ),
                 ),
-                child: ColoredBox(
-                  color: background,
-                  child: Padding(
-                    padding: const EdgeInsets.all(65.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        index != pagesLength - 1
-                            ? _skipButton(setIndex: setIndex)
-                            : _signupButton,
-                        Padding(
-                          padding: const EdgeInsets.only(right: 45.0),
-                          child: CustomIndicator(
-                            netDragPercent: dragDistance,
-                            pagesLength: pagesLength,
-                            indicator: Indicator(
-                              indicatorDesign: IndicatorDesign.polygon(
-                                polygonDesign: PolygonDesign(
-                                  polygon: DesignType.polygon_arrow,
-                                ),
-                              ),
-                            ),
-                          ),
+              ),
+              child: ColoredBox(
+                color: background,
+                child: Padding(
+                  padding: const EdgeInsets.all(65.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      index != pagesLength - 1
+                          ? _skipButton(setIndex: setIndex)
+                          : _signupButton,
+                      InkWell(
+                        borderRadius: defaultProceedButtonBorderRadius,
+                        onTap: () {
+                          Navigator.popAndPushNamed(context, '/home');
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 18.0, vertical: 15.0),
+                          child: Text('Skip',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                              )),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-              );
-            }),
-      ),
+              ),
+            );
+          }),
     );
   }
 }

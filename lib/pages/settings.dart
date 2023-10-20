@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:provider/provider.dart';
 import 'package:refectify/main.dart';
+import 'package:refectify/pages/components/backup.dart';
+import 'package:refectify/pages/components/note.dart';
+import 'package:refectify/pages/components/note_manager.dart';
 import 'package:refectify/theme_notifier.dart';
 import 'package:refectify/pages/components/pdftool.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -16,14 +22,15 @@ class SettingsPage extends StatefulWidget {
 class SettingsPageState extends State<SettingsPage> {
   String freqVal = 'Never';
   bool isDark = true;
-  int notesAddedLastWeek = 10;
-  int notesAddedYesterday = 3;
-  int notesAddedLastMonth = 30;
+  int notesAddedLastWeek = 0;
+  int notesAddedYesterday = 0;
+  int notesAddedLastMonth = 0;
 
   @override
   void initState() {
     super.initState();
     setPreferences();
+    getStatics();
   }
 
   void setPreferences() async {
@@ -41,10 +48,34 @@ class SettingsPageState extends State<SettingsPage> {
     sharedPreferences.setBool('isDark', isDark);
   }
 
-  Future<void> _signOut(BuildContext context) async {
+  _signOut() async {
     await FirebaseAuth.instance.signOut();
     if (!mounted) return;
     Navigator.popAndPushNamed(context, '/auth');
+  }
+
+  getStatics() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+
+    NoteManager noteManager = NoteManager(sharedPreferences);
+    List<Note> notes = noteManager.getNotes();
+    setState(() {
+      for (Note note in notes) {
+        if (note.creationDate
+            .isAfter(DateTime.now().subtract(const Duration(days: 7)))) {
+          notesAddedLastWeek++;
+        }
+        if (note.creationDate
+            .isAfter(DateTime.now().subtract(const Duration(days: 1)))) {
+          notesAddedYesterday++;
+        }
+        if (note.creationDate
+            .isAfter(DateTime.now().subtract(const Duration(days: 30)))) {
+          notesAddedLastMonth++;
+        }
+      }
+    });
   }
 
   Future<void> makeNotification(DateTime dateTime) async {
@@ -80,9 +111,73 @@ class SettingsPageState extends State<SettingsPage> {
     sharedPreferences.setString('freqVal', freqVal);
   }
 
-  Future<void> exportNotes() async {
-    const pdfText = 'sample text';
+  shareNotes() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    NoteManager noteManager = NoteManager(sharedPreferences);
+    List<Note> notes = noteManager.getNotes();
+    String pdfText = '';
+    for (Note note in notes) {
+      String noteContent = quill.Document.fromJson(jsonDecode(note.content))
+          .toPlainText();
+      pdfText += '${note.title}\n${note.creationDate}\n$noteContent\n\n';
+    }
     PDFTools.generateCenteredText(pdfText);
+  }
+
+  backupNotes() async {
+    bool res = await BackupData.backup();
+    if(res){
+      if(!mounted)return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Backup Successful'),
+        ),
+      );
+    }
+    else{
+      if(!mounted)return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Backup Failed'),
+        ),
+      );
+    }
+  }
+
+  restoreNotes() async {
+    BackupData.restore();
+  }
+
+  getChildren() {
+    bool isLoggedIn = FirebaseAuth.instance.currentUser != null;
+    if (isLoggedIn) {
+      return [
+        ElevatedButton(
+          onPressed: backupNotes,
+          child: const Text('Export Notes'),
+        ),
+        const SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: restoreNotes,
+          child: const Text('Import Notes'),
+        ),
+        const SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: _signOut,
+          child: const Text('Sign Out'),
+        ),
+      ];
+    } else {
+      return [
+        ElevatedButton(
+          child: const Text('Login For more Features'),
+          onPressed: ()  {
+            Navigator.popAndPushNamed(context, '/auth');
+          },
+        ),
+      ];
+    }
   }
 
   @override
@@ -110,7 +205,6 @@ class SettingsPageState extends State<SettingsPage> {
               trailing: Switch(
                 value: themeProvider.isDarkTheme,
                 onChanged: (bool value) {
-                  // sharedPreferences.setBool('isDark', value);
                   themeProvider.toggleTheme();
                   changeTheme(value);
                 },
@@ -165,16 +259,13 @@ class SettingsPageState extends State<SettingsPage> {
                   style: Theme.of(context).textTheme.bodySmall),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: exportNotes,
-              child: const Text('Export Notes'),
+            Column(
+              children: getChildren(),
             ),
-            ListTile(
-              title:
-                  Text('Logout', style: Theme.of(context).textTheme.bodyMedium),
-              onTap: () async {
-                await _signOut(context);
-              },
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: shareNotes,
+              child: const Text('Share as pdf'),
             ),
           ],
         ),

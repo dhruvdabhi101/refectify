@@ -1,4 +1,5 @@
 class Note {
+  final int id;
   final String title;
   final String content;
   final DateTime creationDate;
@@ -7,7 +8,7 @@ class Note {
     required this.title,
     required this.content,
     required this.creationDate,
-  });
+  }) : id = creationDate.millisecondsSinceEpoch;
 
   Map<String, dynamic> toMap() {
     return {
