@@ -1,3 +1,8 @@
+/// This file contains the implementation of the Home page of the Refectify app.
+/// It imports necessary packages and files, and defines the [Home] and [HomePage] classes.
+/// The [Home] class is a StatefulWidget that creates a scaffold with a bottom navigation bar and an indexed stack of pages.
+/// The [HomePage] class is a StatefulWidget that creates the home page with a greeting message and a list of notes.
+/// It also defines helper methods to get the state of the day and the user's name.
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:refectify/pages/components/note.dart';
@@ -27,6 +32,7 @@ class _Home extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(

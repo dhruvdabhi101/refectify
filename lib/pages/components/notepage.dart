@@ -1,3 +1,6 @@
+/// A page that displays a single note with its title, creation date, and content.
+/// Allows the user to delete the note and share its content as a PDF.
+/// Uses [quill.QuillEditor] to display the note's content.
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
@@ -31,6 +34,7 @@ class _NotePageState extends State<NotePage> {
     note = ModalRoute.of(context)!.settings.arguments as Note;
   }
 
+  /// Deletes the current note from the [SharedPreferences] and navigates back to the home page.
   deleteNote() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     NoteManager noteManager = NoteManager(prefs);
@@ -39,6 +43,7 @@ class _NotePageState extends State<NotePage> {
     Navigator.popAndPushNamed(context, '/home');
   }
 
+  /// Generates a PDF file with the note's title, creation date, and content and shares it.
   shareNote() async {
     String noteContent =
         quill.Document.fromJson(jsonDecode(note.content)).toPlainText();

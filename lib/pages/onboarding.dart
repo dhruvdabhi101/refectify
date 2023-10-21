@@ -1,3 +1,9 @@
+/// This file contains the [OnboardingPage] widget which is a StatefulWidget that displays onboarding pages.
+/// It imports the [Onboarding] and [PageModel] classes from the onboarding package and the [LoginPage] widget from the login.dart file.
+/// The [OnboardingPage] widget has a list of [PageModel] objects that represent the onboarding pages.
+/// It also has a skip button and a sign up button that redirect to the login page.
+/// The [Onboarding] widget is used to display the onboarding pages and handle page changes.
+/// The footer of the [Onboarding] widget is customized to include the skip and sign up buttons.
 import 'package:flutter/material.dart';
 import 'package:onboarding/onboarding.dart';
 import 'package:refectify/pages/auth/login.dart';

@@ -1,3 +1,20 @@
+/// A class that provides methods to backup and restore notes data to/from Firebase Realtime Database.
+// class BackupData{
+  
+  /// A static method that backs up the notes data to Firebase Realtime Database.
+  /// Returns true if the backup was successful, false otherwise.
+  // static Future<bool> backup() async{
+    // ...
+  // }
+
+  /// A static method that restores the notes data from Firebase Realtime Database.
+  /// Returns true if the restore was successful, false otherwise.
+  // static Future<bool> restore() async{
+    // ...
+  // }
+// }
+// implemetation
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:refectify/pages/components/note.dart';
