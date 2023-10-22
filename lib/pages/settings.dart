@@ -1,3 +1,9 @@
+/// This file contains the implementation of the Settings page.
+/// It imports necessary packages and files, and defines the SettingsPage and SettingsPageState classes.
+/// The SettingsPageState class contains the state of the Settings page, including the frequency value, theme, and note statistics.
+/// It also defines methods for setting preferences, changing the theme, signing out, getting note statistics, and scheduling notifications.
+/// Additionally, it defines methods for sharing, backing up, and restoring notes.
+/// The getChildren method returns the appropriate child widgets based on whether the user is logged in or not.
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';

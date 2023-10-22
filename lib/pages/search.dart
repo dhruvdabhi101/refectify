@@ -1,3 +1,18 @@
+/// This file contains the implementation of the SearchPage widget.
+///
+/// The SearchPage widget is a StatefulWidget that displays a search bar and a list of notes.
+/// The user can search for notes by typing in the search bar, and the list of notes will be filtered accordingly.
+/// The notes are retrieved from the shared preferences using the NoteManager class.
+/// The search bar is implemented using the TextField widget.
+///
+/// Example usage:
+///
+/// ```dart
+/// Navigator.push(
+///   context,
+///   MaterialPageRoute(builder: (context) => SearchPage()),
+/// );
+/// ```
 import 'package:flutter/material.dart';
 import 'package:refectify/pages/components/note.dart';
 import 'package:refectify/pages/components/note_manager.dart';

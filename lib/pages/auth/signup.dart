@@ -1,3 +1,7 @@
+/// This file contains the implementation of the SignupPage widget, which allows users to sign up for the app using their email and password.
+/// The widget contains a form with input fields for the user's name, email, and password.
+/// Upon successful registration, the user is redirected to the home page.
+/// If registration fails, an error message is displayed.
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:refectify/pages/auth/login.dart';

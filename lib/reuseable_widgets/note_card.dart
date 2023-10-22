@@ -1,3 +1,7 @@
+/// A widget that displays a note card with a title.
+///
+/// This widget takes a [Note] object as input and displays its title in a card.
+/// When the card is tapped, it navigates to the '/noteHome' route with the [Note] object as an argument.
 import 'package:flutter/material.dart';
 import 'package:refectify/pages/components/note.dart';
 

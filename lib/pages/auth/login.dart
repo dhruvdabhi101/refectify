@@ -1,3 +1,7 @@
+/// This file contains the implementation of the login page of the Refectify app.
+/// It allows users to log in using their email and password or using their Google account.
+/// If the user is not registered, they can navigate to the signup page.
+/// The page also displays error messages if the login fails.
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';

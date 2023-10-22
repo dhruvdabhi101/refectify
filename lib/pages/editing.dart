@@ -1,3 +1,24 @@
+/// FILEPATH: /D:/Sem5/refectify/lib/pages/editing.dart
+///
+/// This file contains the implementation of the [EditorPage] widget, which is a stateful widget that
+/// displays a Quill editor for creating and editing notes. The widget allows the user to enter a title
+/// and content for the note, and save it to the device's local storage using [SharedPreferences].
+///
+/// The [EditorPage] widget uses the [quill.QuillController] to manage the state of the Quill editor,
+/// and the [quill.QuillToolbar] and [quill.QuillEditor] widgets to display the editor UI.
+///
+/// The [EditorPage] widget also uses the [NoteManager] class to save the note to local storage, and
+/// the [Note] class to represent the note data.
+///
+/// To use this widget, simply create an instance of [EditorPage] and add it to your widget tree.
+/// You can also pass in an optional [key] parameter to uniquely identify the widget.
+///
+/// Example:
+///
+/// ```dart
+/// EditorPage(key: UniqueKey())
+/// ```
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
